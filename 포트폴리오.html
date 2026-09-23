@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 과제물 포트폴리오</title>
+  
+  <!-- ==========================================
+       [CSS 스타일 영역]
+       ========================================== -->
+  <style>
+    /* 1. 기본 스타일 리셋 및 변수 설정 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* 2. 상단 네비게이션 바 */
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e9ecef;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #2b8a3e;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #495057;
+      margin-left: 1.5rem;
+      font-weight: 500;
+    }
+
+    /* 3. 메인 히어로 섹션 */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: linear-gradient(135deg, #e6fcf5 0%, #d3f9d8 100%);
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: #2b8a3e;
+    }
+
+    .hero p {
+      color: #5c940d;
+      font-size: 1.1rem;
+    }
+
+    /* 4. 포트폴리오 섹션 메인 컨테이너 */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 5. 카테고리 필터 버튼 */
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid #2b8a3e;
+      background-color: white;
+      color: #2b8a3e;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    /* 활성화된 버튼 스타일 */
+    .filter-btn.active, .filter-btn:hover {
+      background-color: #2b8a3e;
+      color: white;
+    }
+
+    /* 6. 과제물 카드 그리드 */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 180px;
+      background-color: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #868e96;
+      font-size: 1.1rem;
+    }
+
+    .card-content {
+      padding: 1.2rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      background-color: #e6fcf5;
+      color: #2b8a3e;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* 7. 상세보기 모달 (팝업창) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none; /* 기본 상태는 숨김 */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-title {
+      margin-bottom: 1rem;
+      color: #2b8a3e;
+    }
+
+    .modal-body {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      color: #495057;
+    }
+
+    /* 8. 푸터 */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #ffffff;
+      border-top: 1px solid #e9ecef;
+      color: #868e96;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 헤더 -->
+  <header>
+    <div class="logo">My Portfolio</div>
+    <nav>
+      <a href="#assignments">과제물</a>
+      <a href="#contact">연락처</a>
+    </nav>
+  </header>
+
+  <!-- 메인 히어로 섹션 -->
+  <section class="hero">
+    <h1>안녕하세요, 과제물 포트폴리오입니다</h1>
+    <p>HTML, CSS, JS를 배워가며 만든 결과물들을 모아둔 공간입니다.</p>
+  </section>
+
+  <!-- 메인 컨텐츠 영역 -->
+  <main class="container" id="assignments">
+    <h2 class="section-title">📌 과제물 목록</h2>
+
+    <!-- 카테고리 필터 버튼 -->
+    <div class="filter-buttons">
+      <button class="filter-btn active" onclick="filterProjects('all')">전체</button>
+      <button class="filter-btn" onclick="filterProjects('html-css')">HTML/CSS</button>
+      <button class="filter-btn" onclick="filterProjects('js')">JavaScript</button>
+    </div>
+
+    <!-- 과제물 카드 목록 (JS로 보여주기/숨기기 컨트롤) -->
+    <div class="portfolio-grid">
+
+      <!-- 과제 카드 1 -->
+      <div class="card" data-category="html-css" onclick="openModal('자기소개 페이지', 'HTML 태그 구조화와 CSS Flexbox 레이아웃 연습을 위해 만든 첫 웹 페이지입니다.')">
+        <div class="card-img">🖼️ 프로젝트 1</div>
+        <div class="card-content">
+          <h3 class="card-title">자기소개 웹페이지</h3>
+          <p class="card-desc">HTML structural 태그와 CSS 기초 스타일링 활용</p>
+          <div class="tags">
+            <span class="tag">#HTML</span>
+            <span class="tag">#CSS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 과제 카드 2 -->
+      <div class="card" data-category="js" onclick="openModal('투두리스트 앱', 'JS DOM 조작(createElement, appendChild) 및 이벤트 처리를 활용한 할 일 관리 앱입니다.')">
+        <div class="card-img">🖼️ 프로젝트 2</div>
+        <div class="card-content">
+          <h3 class="card-title">간단한 To-Do 리스트</h3>
+          <p class="card-desc">JavaScript를 활용한 할 일 추가/삭제 기능</p>
+          <div class="tags">
+            <span class="tag">#JS</span>
+            <span class="tag">#DOM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 과제 카드 3 -->
+      <div class="card" data-category="html-css" onclick="openModal('반응형 랜딩페이지', '미디어 쿼리(Media Query)를 사용하여 모바일/PC 레이아웃을 다르게 구현했습니다.')">
+        <div class="card-img">🖼️ 프로젝트 3</div>
+        <div class="card-content">
+          <h3 class="card-title">반응형 랜딩페이지</h3>
+          <p class="card-desc">미디어 쿼리를 활용한 모바일/PC 대응 레이아웃</p>
+          <div class="tags">
+            <span class="tag">#HTML</span>
+            <span class="tag">#CSS</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 상세 보기 모달 (팝업창) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 class="modal-title" id="modalTitle">과제 제목</h3>
+      <p class="modal-body" id="modalBody">과제 상세 내용이 여기에 들어갑니다.</p>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer id="contact">
+    <p>Contact: example@email.com | GitHub: github.com/username</p>
+    <p>&copy; 2026 My Portfolio. All rights reserved.</p>
+  </footer>
+
+
+  <!-- ==========================================
+       [JavaScript 기능 영역]
+       ========================================== -->
+  <script>
+    // ==========================================
+    // 1. 카테고리 필터링 기능 (HTML/CSS vs JS 과제 나눠서 보기)
+    // ==========================================
+    function filterProjects(category) {
+      // (1) 카테고리 버튼 스타일 변경 (클릭한 버튼 강조)
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active')); // 기존 active 지우기
+      event.target.classList.add('active');                   // 클릭된 버튼에 active 추가
+
+      // (2) 과제물 카드 필터링
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        // 선택한 카테고리가 'all'이거나, 카테고리가 카드 데이터와 일치하면 보여줌
+        const cardCategory = card.getAttribute('data-category');
+
+        if (category === 'all' || cardCategory === category) {
+          card.style.display = 'block'; // 화면에 표시
+        } else {
+          card.style.display = 'none';  // 화면에서 숨김
+        }
+      });
+    }
+
+    // ==========================================
+    // 2. 상세보기 모달(팝업) 열기
+    // ==========================================
+    function openModal(title, description) {
+      // 모달창 element 가져오기
+      const modal = document.getElementById('modalOverlay');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+
+      // 전달받은 제목과 설명으로 글자 변경
+      modalTitle.innerText = title;
+      modalBody.innerText = description;
+
+      // 모달창 보이게 처리 (CSS display 변경)
+      modal.style.display = 'flex';
+    }
+
+    // ==========================================
+    // 3. 상세보기 모달(팝업) 닫기
+    // ==========================================
+    function closeModal() {
+      const modal = document.getElementById('modalOverlay');
+      modal.style.display = 'none'; // 모달창 숨김
+    }
+
+    // (선택) 배경 어두운 부분을 클릭해도 모달창 닫히게 설정
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalOverlay');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>
+, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
